@@ -1,4 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
+
+# Налаштування логування
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
 
 # SRP — Клас, що описує книгу
 class Book:
@@ -8,7 +13,7 @@ class Book:
         self.year = year
 
     def __str__(self):
-        return f'Title: {self.title}, Author: {self.author}, Year: {self.year}'
+        return f"Title: {self.title}, Author: {self.author}, Year: {self.year}"
 
 
 # ISP — Інтерфейс для бібліотечних дій
@@ -53,27 +58,26 @@ class LibraryManager:
     def add_book(self, title: str, author: str, year: str):
         book = Book(title, author, year)
         self.library.add_book(book)
-        print(f"Book '{title}' added successfully.")
-        
+        logging.info(f"Book '{title}' added successfully.")
 
     def remove_book(self, title: str):
         initial_count = len(self.library.get_books())
         self.library.remove_book(title)
         final_count = len(self.library.get_books())
         if final_count < initial_count:
-            print(f"Book '{title}' removed successfully.")
+            logging.info(f"Book '{title}' removed successfully.")
         else:
-            print(f"Book '{title}' not found.")
+            logging.info(f"Book '{title}' not found.")
 
     def show_books(self):
         books = self.library.get_books()
         if not books:
-            print("No books in the library.")
+            logging.info("No books in the library.")
         else:
             for book in books:
-                print(book)
-                 
-        print("Show command executed.")
+                logging.info(book)
+
+        logging.info("Show command executed.")
 
 
 # Головна функція (з інтерфейсом командного рядка)
@@ -102,7 +106,7 @@ def main():
                 break
 
             case _:
-                print("Invalid command. Please try again.")
+                logging.info("Invalid command. Please try again.")
 
 
 if __name__ == "__main__":

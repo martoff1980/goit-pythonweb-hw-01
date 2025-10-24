@@ -1,4 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
+
+# Налаштування логування
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
 
 # Абстрактний клас транспортного засобу
 class Vehicle(ABC):
@@ -10,14 +15,17 @@ class Vehicle(ABC):
     def start_engine(self):
         pass
 
+
 # Конкретні класи транспортних засобів
 class Car(Vehicle):
     def start_engine(self):
-        print(f"{self.make} {self.model}: Двигун запущено")
+        logging.info(f"{self.make} {self.model}: Двигун запущено")
+
 
 class Motorcycle(Vehicle):
     def start_engine(self):
-        print(f"{self.make} {self.model}: Мотор заведено")
+        logging.info(f"{self.make} {self.model}: Мотор заведено")
+
 
 # Абстрактна фабрика
 class VehicleFactory(ABC):
@@ -29,21 +37,24 @@ class VehicleFactory(ABC):
     def create_motorcycle(self, make, model):
         pass
 
+
 # Фабрика для США
 class USVehicleFactory(VehicleFactory):
     def create_car(self, make, model):
-        return Car(f"{make} {model} (US Spec)", "")
+        return Car(f"{make} {model} (US Spec)")
 
     def create_motorcycle(self, make, model):
-        return Motorcycle(f"{make} {model} (US Spec)", "")
+        return Motorcycle(make, f"{make} {model} (US Spec)")
+
 
 # Фабрика для Європи
 class EUVehicleFactory(VehicleFactory):
     def create_car(self, make, model):
-        return Car(f"{make} {model} (EU Spec)", "")
+        return Car(make, f"{make} {model} (EU Spec)")
 
     def create_motorcycle(self, make, model):
-        return Motorcycle(f"{make} {model} (EU Spec)", "")
+        return Motorcycle(make, f"{make} {model} (EU Spec)")
+
 
 # Приклад використання
 def main():
@@ -62,6 +73,7 @@ def main():
 
     vehicle4 = eu_factory.create_motorcycle("BMW", "R1250")
     vehicle4.start_engine()
+
 
 if __name__ == "__main__":
     main()
